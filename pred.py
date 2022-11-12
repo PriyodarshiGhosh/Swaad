@@ -5,6 +5,7 @@ from sklearn.neighbors import NearestNeighbors
 from scipy.sparse import csr_matrix
 Ure = pd.read_csv("/Users/priyodarshighosh/Swaad/RAW_interactions 2.csv")
 Re = pd.read_csv("/Users/priyodarshighosh/Swaad/RAW_recipes 2.csv")
+
 def create_mat(df):
     N = len(df['user_id'].unique())
     M = len(df['recipe_id'].unique())
