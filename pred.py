@@ -5,7 +5,6 @@ from sklearn.neighbors import NearestNeighbors
 from scipy.sparse import csr_matrix
 Ure = pd.read_csv("/Users/priyodarshighosh/Swaad/RAW_interactions 2.csv")
 Re = pd.read_csv("/Users/priyodarshighosh/Swaad/RAW_recipes 2.csv")
-
 def create_mat(df):
     N = len(df['user_id'].unique())
     M = len(df['recipe_id'].unique())
@@ -63,10 +62,31 @@ def dish_recommender(dish):
     for i in similar_ids:
         titles.append(recipe_titles[i])
     return titles
-
-
-
-#print(recipe_map_ni['mojito lemon lime cocktail']) # Test
+def jaccard(list1, list2):
+    intersection = len(list(set(list1).intersection(list2)))
+    union = (len(list1) + len(list2)) - intersection
+    return (intersection) / union
+d = pd.read_csv("/Users/priyodarshighosh/Swaad/indian_food (1).csv")
+d['ingredients'] = d['ingredients'].apply(lambda x: [str(i) for i in x.split(',')])
+df = pd.DataFrame(d)
+#Udf = df[['naam', 'ingredients', 'flavor_profile']].copy()
+def dish_ing(ing1,ing2,ing3):
+    InL=[]
+    InL.append(ing1)
+    InL.append(ing2)
+    InL.append(ing3)
+    Lsim = []
+    for row in range(0, len(df['ingredients'])):
+        a = jaccard(df.iloc[row]['ingredients'], InL)
+        Lsim.append(a)
+    max_s = max(Lsim)
+    idx1 = Lsim.index(max_s)
+    temp = Lsim[:]
+    temp.sort()
+    max2 = temp[len(temp)-2]
+    max3 = temp[len(temp)-3]
+    idx2 = Lsim.index(max2)
+    return [df.iloc[idx1]['name'],df.iloc[idx2]['name']]
 
 
 
