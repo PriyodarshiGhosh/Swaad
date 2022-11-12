@@ -9,7 +9,11 @@ def submit():
     if request.method=="POST":
         dish=request.form["dish"]
         dish_pred=p.dish_recommender(dish)
-    return render_template("sub.html",n=dish_pred)
+        ing1=request.form["ing1"]
+        ing2=request.form["ing2"]
+        ing3=request.form["ing3"]
+        dishes=p.dish_ing(ing1,ing2,ing3)
+    return render_template("sub.html",n=dish_pred,m=dishes)
 
 if __name__=="__main__":
     app.run()
