@@ -1,5 +1,3 @@
-<!-- href="{{ url_for('static', filename='/style.css') }}" -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,95 +5,101 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Swaad</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Romanesco&display=swap" rel="stylesheet">
+    <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+
+  <!-- font awesome style -->
+  <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet" />
+  <!-- nice select -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4=" crossorigin="anonymous" />
+  <!-- slidck slider -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" integrity="sha256-UK1EiopXIL+KVhfbFa8xrmAWPeBjMVdvYMYkTAEv/HI=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css.map" integrity="undefined" crossorigin="anonymous" />
+
 </head>
+
 <body>
 
-    <div class="header">
-        <div class="header-fixed">
-        <img src="https://i.ibb.co/hRVhcMY/Logo.png" id="logo"/>
-       <div class="most_similar">
-          <p class="most_1"># 1 most similar</p>
-          <p class="most_2"> {{most_dish_1}} </p>
-          <p class="most_3"> {{most_dish_2}} </p>
-          <p class="most_2">{{m}}</p>
+  <div class="card container padder">
+    {{m}}
+  <div class="card-group">
+    <div class="card" style="width: 18rem;">
+      <p class="card-header"><small class="text-muted">#1 Most Similar</small></p>
+      <!-- <img src="..." class="card-img-top" alt="..."> -->
+      <div class="card-body">
+       
+        <h5 class="card-title">{{most}}</h5>
+        <p class="card-text">{{most_desc}}</p>
       </div>
-        </div>
-        <img src="https://i.ibb.co/bRrrHR8/Mac-Book-Air-4.png" style='height: 100%; width: 100%; object-fit: contain'/>
+      
+    </div>
+    <!--  -->
+    <div class="card" style="width: 18rem;">
+      
+      <div class="card-body">
+        <h5 class="card-title">{{sim_2}}</h5>
+        <p class="card-text">{{sim_2_desc}}</p>
+      </div>
+      
+    </div>
+    <!--  -->
+    <div class="card" style="width: 18rem;">
+      
+      <div class="card-body">
+        <h5 class="card-title">{{sim_3}}</h5>
+        <p class="card-text">{{sim_3_desc}}</p>
+      </div>
+      
+    </div>
+    <!--  -->
+    <div class="card" style="width: 18rem;">
+     
+      <div class="card-body">
+        <h5 class="card-title">{{sim_4}}</h5>
+        <p class="card-text">{{sim_4_desc}}</p>
+      </div>
+      
+    </div>
+    <!--  -->
+    <div class="card" style="width: 18rem;">
+   
+      <div class="card-body">
+        <h5 class="card-title">{{sim_5}}</h5>
+        <p class="card-text">{{sim_5_desc}}</p>
+      </div>
+      
+    </div>
 
 
-        <!-- <p id="demo" style="color:black"></p> -->
-    
+  </div>
+  
+</div>
+<br><br>
+
+
 </body>
-
-<!-- <script>
-    let result = {{n}};
-    var first = result[0];
-    document.getElementById("demo").innerHTML = first;
-</script> -->
+<!-- jQery -->
+<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+<!-- bootstrap js -->
+<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+<!-- slick  slider -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"></script>
+<!-- nice select -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+<!-- custom js -->
+<script src="{{ url_for('static', filename='js/custom.js') }}"></script>
 
 <style>
-    html, body {
-  margin: 0px;
-  height: 100%;
-  overflow: hidden;
-  background: #392A34;
-}
-/* 
-.box {
-  height: 100%;
-}
-*/
-#logo {
-  top:0;
-  width:20%;
-} 
-
-
-.most_similar {
-  text-align: left;
-  margin-bottom:10px;
-}
-
-.most_1 {
-  color: #F56D03;
-  font-family: 'Poppins';
-  font-size:20px;
-  font-weight: 100;
-}
-
-.most_2 {
-  color: #9e9e9e;
-  font-family: 'Inter', sans-serif;
-  font-size: 50px;
-}
-
-.most_3 {
-  color: #F56D03;
-  font-family: 'Inter', sans-serif;
-  font-size: 60px;
-  font-weight: 700;
-}
-
-.header-fixed {
-  @fixedHeight: 30px;
-  background: @orange;
-  font-size: 14px;
-  position: fixed;
-  line-height: @fixedHeight;
-  height: 100%;
-  text-indent: 20px;
-  width: 100%;
-  text-align: center;
-}
-/*  
-.header-notFixed {
-  line-height: @height;
-  
-  font-size: 18px;
- 
-}
- */
- </style>
-
+  .padder{
+    padding:10px;
+    margin-top:5rem;
+   
+  }
+  </style>
 </html>
-
