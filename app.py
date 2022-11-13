@@ -32,7 +32,7 @@ def submit():
         elif (dish == "") & (ing1 != "") & (ing2 != "") & (ing3 != ""):
             dishes=p.dish_ing(ing1,ing2,ing3)
             print(dishes)
-            return render_template("sub.html",m=dishes)
+            return render_template("mel.html",m=dishes[0])
 
         else:
             print("breaking out")
