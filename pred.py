@@ -5,6 +5,7 @@ from sklearn.neighbors import NearestNeighbors
 from scipy.sparse import csr_matrix
 Ure = pd.read_csv("RAW_interactions.csv")
 Re = pd.read_csv("RAW_recipes.csv")
+
 def create_mat(df):
     N = len(df['user_id'].unique())
     M = len(df['recipe_id'].unique())
@@ -37,7 +38,9 @@ def find_similar_recipes(recipe_id, X, k, metric='cosine', show_distance=False):
     return neighbour_ids
 def dish_recommender(dish):
     dfund = pd.DataFrame(Re['name'],Re['id'])
+    desr = pd.DataFrame(Re['description'],Re['id'])
     recipe_map_ni = dict(zip(Re['name'],Re['id']))
+    
     Rdf = pd.DataFrame(Ure)
     n_rate = len(Ure)
     n_recipe = len(Ure['recipe_id'].unique())
@@ -51,7 +54,8 @@ def dish_recommender(dish):
     Re.loc[Re['id']== highest_rated]
     recipe_stats = Ure.groupby('recipe_id')[['rating']].agg(['count', 'mean'])
     recipe_stats.columns = recipe_stats.columns.droplevel()
-    
+
+    desr_map = dict(zip(Re['id'],Re['description']))
     recipe_titles = dict(zip(Re['id'], Re['name']))
     dish_name = dish
     similar_dish = recipe_map_ni[dish_name]
@@ -59,9 +63,15 @@ def dish_recommender(dish):
     recipe_title = recipe_titles[similar_dish]
     print(f"Since you ate {recipe_title}")
     titles=[]
+    description = []
+   
     for i in similar_ids:
         titles.append(recipe_titles[i])
-    return titles
+        description.append(desr_map[i])
+
+    # print(description)
+
+    return titles,description
 def jaccard(list1, list2):
     intersection = len(list(set(list1).intersection(list2)))
     union = (len(list1) + len(list2)) - intersection
@@ -87,7 +97,3 @@ def dish_ing(ing1,ing2,ing3):
     max3 = temp[len(temp)-3]
     idx2 = Lsim.index(max2)
     return [df.iloc[idx1]['name'],df.iloc[idx2]['name']]
-
-
-
-
