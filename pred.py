@@ -72,28 +72,94 @@ def dish_recommender(dish):
     # print(description)
 
     return titles,description
-def jaccard(list1, list2):
-    intersection = len(list(set(list1).intersection(list2)))
-    union = (len(list1) + len(list2)) - intersection
-    return (intersection) / union
-d = pd.read_csv("indian_food.csv")
-d['ingredients'] = d['ingredients'].apply(lambda x: [str(i) for i in x.split(',')])
-df = pd.DataFrame(d)
-#Udf = df[['naam', 'ingredients', 'flavor_profile']].copy()
-def dish_ing(ing1,ing2,ing3):
-    InL=[]
-    InL.append(ing1)
-    InL.append(ing2)
-    InL.append(ing3)
-    Lsim = []
-    for row in range(0, len(df['ingredients'])):
-        a = jaccard(df.iloc[row]['ingredients'], InL)
-        Lsim.append(a)
-    max_s = max(Lsim)
-    idx1 = Lsim.index(max_s)
-    temp = Lsim[:]
-    temp.sort()
-    max2 = temp[len(temp)-2]
-    max3 = temp[len(temp)-3]
-    idx2 = Lsim.index(max2)
-    return [df.iloc[idx1]['name'],df.iloc[idx2]['name']]
+
+# def jaccard(list1, list2):
+#     intersection = len(list(set(list1).intersection(list2)))
+#     union = (len(list1) + len(list2)) - intersection
+#     return (intersection) / union
+# d = pd.read_csv("indian_food.csv")
+
+# d['ingredients'] = d['ingredients'].apply(lambda x: [str(i) for i in x.split(',')])
+# df = pd.DataFrame(d)
+# #Udf = df[['naam', 'ingredients', 'flavor_profile']].copy()
+# def dish_ing(ing1,ing2,ing3):
+#     InL=[]
+#     InL.append(ing1)
+#     InL.append(ing2)
+#     InL.append(ing3)
+#     Lsim = []
+#     for row in range(0, len(df['ingredients'])):
+#         a = jaccard(df.iloc[row]['ingredients'], InL)
+#         Lsim.append(a)
+#     max_s = max(Lsim)
+#     idx1 = Lsim.index(max_s)
+#     temp = Lsim[:]
+#     temp.sort()
+#     max2 = temp[len(temp)-2]
+#     max3 = temp[len(temp)-3]
+#     idx2 = Lsim.index(max2)
+#     return [df.iloc[idx1]['name'],df.iloc[idx2]['name']]
+
+
+def ingToDish(in1, in2, in3):
+    df = pd.read_csv("indian_food.csv")
+    df = pd.DataFrame(df)
+    df.head()
+
+    food_vocab = set()
+
+    for ingredients in df['ingredients']:
+        for food in ingredients.split(','):
+        # we dont want any Capital character and dont want any spaces and want all unique food value in food_vocab, so below loop will make sure
+            if food.strip().lower() not in food_vocab:
+                food_vocab.add(food.strip().lower())
+
+    ing_df = pd.DataFrame()
+
+    for i, ingredients in enumerate(df['ingredients']):
+        for food in ingredients.split(','):
+            if food.strip().lower() in food_vocab:
+                ing_df.loc[i, food.strip().lower()] = 1
+
+    ing_df = ing_df.fillna(0)
+    ing_df['name'] = df['name']
+
+    User_il = [in1, in2, in3]
+    # for i in range(0,3):
+    #     User_in = input("Enter the ingridients: ")
+    #     User_il.append(User_in)
+
+    col = list(ing_df)
+
+    l1 = []
+    l2 = []
+    l3 = []
+    suml = []
+    for k in range(0,255):
+        su = 0
+        for j in User_il:
+            su += ing_df[j][k]
+    
+        suml.append(su)
+    
+        if(su == 1.0):
+            l1.append(k)
+        elif(su == 2.0):
+            l2.append(k)
+        elif(su==3.0):
+            l3.append(k)
+
+    ll = l1+l2+l3
+
+    name1 = ing_df.iloc[ll[len(ll)-1]]['name']
+    name2 = ing_df.iloc[ll[len(ll)-2]]['name']
+    name3 = ing_df.iloc[ll[len(ll)-3]]['name']
+    
+    ingredients1 = df.iloc[ll[len(ll)-1]]['ingredients']
+    ingredients2 = df.iloc[ll[len(ll)-2]]['ingredients']
+    ingredients3 = df.iloc[ll[len(ll)-3]]['ingredients']
+    
+    print(name1, name2, name3)
+    return([name1,name2,name3,ingredients1,ingredients2,ingredients3])
+    
+    
